@@ -22,7 +22,7 @@ public class SpellCheckerController {
     private URL location;
 
     @FXML // fx:id="cmbLanguage"
-    private ComboBox<?> cmbLanguage; // Value injected by FXMLLoader
+    private ComboBox<String> cmbLanguage; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtTesto"
     private TextArea txtTesto; // Value injected by FXMLLoader
@@ -44,11 +44,29 @@ public class SpellCheckerController {
 
     @FXML
     void doClearText(ActionEvent event) {
+    	
+    	this.txtTesto.clear();
+    	this.txtWrongWords.clear();
 
     }
 
     @FXML
     void doSpellCheck(ActionEvent event) {
+    	
+    	long to = System.nanoTime();
+    	
+    	
+    	
+    	// Svolgo l'azione del check
+    	
+    	
+    	//double deT = (System.nanoTime() - to) * 1e9 ;
+    	double deT = (System.nanoTime() - to) ;
+    	
+    	//this.lbTempo.setText(String.format("Spell check completed in  %d seconds", deT));
+    	this.lbTempo.setText(String.format("Spell check completed in " + deT + " seconds"));
+    	
+    	
 
     }
 
@@ -61,6 +79,8 @@ public class SpellCheckerController {
         assert lbNumErrori != null : "fx:id=\"lbNumErrori\" was not injected: check your FXML file 'SpellChecker.fxml'.";
         assert btnClearText != null : "fx:id=\"btnClearText\" was not injected: check your FXML file 'SpellChecker.fxml'.";
         assert lbTempo != null : "fx:id=\"lbTempo\" was not injected: check your FXML file 'SpellChecker.fxml'.";
+        
+        this.cmbLanguage.getItems().addAll(new String("Inglese"),new String("Italiano"));
 
     }
 }
