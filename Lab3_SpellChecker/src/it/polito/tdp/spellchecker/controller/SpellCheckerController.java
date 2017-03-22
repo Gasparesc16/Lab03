@@ -5,7 +5,11 @@
 package it.polito.tdp.spellchecker.controller;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.spellchecker.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,6 +18,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
 public class SpellCheckerController {
+	
+	
+	private Dictionary d;
+	
+	private List<String> testoDaCorreggere = new LinkedList<String>();
+	
+	
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -53,15 +64,38 @@ public class SpellCheckerController {
     @FXML
     void doSpellCheck(ActionEvent event) {
     	
+    	// Gestisco la selezione della lingua
+    	d.loadDictionary(this.cmbLanguage.getValue());
+    	
+    	
+    	// Prendo il testo da correggere
+    	String inputText = txtTesto.getText();
+    	if (inputText.isEmpty())
+    		return;
+    	
+    	// Divido il testo usando gli spazi
+    	String array[] = this.txtTesto.getText().toLowerCase().split(" ");
+    	for(String s: array)
+    		testoDaCorreggere.add(s);
+    	
+    	// Chiamo la funzione per la correzione del testo e calcolo il tempo impiegato per la correzione
     	long to = System.nanoTime();
     	
+    	List<RichWord> lista = d.spellCheckText(testoDaCorreggere);
     	
     	
-    	// Svolgo l'azione del check
+    	// Stampo le parole sbagliate
+    	this.txtWrongWords.appendText(lista + "\n");
+    	
+    	// Calcolo il numero di errori
+    	
+    	this.lbNumErrori.setText("The text contains " +  (lista.size() - 1) + " errors!");
     	
     	
-    	//double deT = (System.nanoTime() - to) * 1e9 ;
-    	double deT = (System.nanoTime() - to) ;
+    	
+    	
+    	double deT = (System.nanoTime() - to)/1e9 ;
+    	
     	
     	//this.lbTempo.setText(String.format("Spell check completed in  %d seconds", deT));
     	this.lbTempo.setText(String.format("Spell check completed in " + deT + " seconds"));
@@ -83,4 +117,9 @@ public class SpellCheckerController {
         this.cmbLanguage.getItems().addAll(new String("Inglese"),new String("Italiano"));
 
     }
+
+	public void setModel(Dictionary model) {
+		d = model;
+		
+	}
 }

@@ -41,7 +41,7 @@
             <TextArea fx:id="txtWrongWords" />
             <HBox alignment="CENTER_RIGHT" spacing="10.0">
                <children>
-                  <Label fx:id="lbNumErrori" text="The text contains 0 errors" />
+                  <Label fx:id="lbNumErrori" text="The text contains 0 errors!" />
                   <Button fx:id="btnClearText" mnemonicParsing="false" onAction="#doClearText" text="Clear Text" />
                </children>
             </HBox>
