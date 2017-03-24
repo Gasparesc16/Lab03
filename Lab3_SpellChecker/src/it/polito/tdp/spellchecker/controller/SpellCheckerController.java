@@ -114,7 +114,9 @@ public class SpellCheckerController {
         assert btnClearText != null : "fx:id=\"btnClearText\" was not injected: check your FXML file 'SpellChecker.fxml'.";
         assert lbTempo != null : "fx:id=\"lbTempo\" was not injected: check your FXML file 'SpellChecker.fxml'.";
         
-        this.cmbLanguage.getItems().addAll(new String("Inglese"),new String("Italiano"));
+        
+        this.cmbLanguage.getItems().addAll("Ingelse", "Italiano");
+        //this.cmbLanguage.getItems().addAll(new String("Inglese"),new String("Italiano"));   SBAGLIATO !!!!!!!!!!! PERCHE'???????
 
     }
 

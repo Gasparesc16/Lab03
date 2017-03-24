@@ -10,7 +10,6 @@ package it.polito.tdp.spellchecker.model;
  *  - Non dovrebbe contenere alcun metodo richiesto per la gestione degli eventi;
  * 
  * Ogni istanza di questa classe conterrà una parola del testo in input e l'indicazione se tale parola é corretta o meno
- * (In particolare utilizzata per tener traccia delle parole errate)
  * 
  * @author Gaspare
  *
@@ -21,14 +20,11 @@ public class RichWord {
 	private String word;
 	private boolean corretta;
 
+	public RichWord(String word) {
 	
-	public RichWord(String word, boolean corretta) {
-		super();
 		this.word = word;
-		this.corretta = corretta;
+		this.corretta = false;
 	}
-
-
 
 
 	/**
@@ -70,13 +66,43 @@ public class RichWord {
 	public String toString() {
 		return "RichWord word= " + word + ", corretta=" + corretta;
 	}
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((word == null) ? 0 : word.hashCode());
+		return result;
+	}
+
+
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RichWord other = (RichWord) obj;
+		if (word == null) {
+			if (other.word != null)
+				return false;
+		} else if (!word.equals(other.word))
+			return false;
+		return true;
+	}
 	
 
 }

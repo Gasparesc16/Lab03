@@ -6,12 +6,15 @@ import java.util.*;
 public class Dictionary {
 	
 	private List<RichWord> paroleSbagliate;
-	private List<String> dizionario;
+	private List<String> dizionarioItaliano;
+	private List<String> englishDictionary;
 	
 	
 	public Dictionary() {
 		
 		this.paroleSbagliate = new LinkedList<RichWord>();
+		this.dizionarioItaliano = new LinkedList<String>();
+		this.englishDictionary = new LinkedList<String>();
 		
 	}
 	
@@ -19,13 +22,15 @@ public class Dictionary {
 	/**
 	 * Metodo che permette di caricare in memoria il dizionario della lingua desiderata
 	 * 
+	 * Inoltre questo metodo salva le parole del dizionario in una struttura dati appropriata
+	 * 
 	 * @param language
 	 */
 
 	public void loadDictionary(String language){
 		
 		
-		if(language.compareTo("Inglese")==0){
+		if(language.compareTo("English")==0){
 			
 			try{
 				FileReader fr = new FileReader("rsc/English.txt");
@@ -34,13 +39,11 @@ public class Dictionary {
 				String word;
 				while((word = br.readLine()) != null){
 					
-					// Aggiungere parola alla struttura dati
-					dizionario.add(word);
+					englishDictionary.add(word.toLowerCase());
 					
 					
 				}
 				br.close();
-				
 				
 				} catch (IOException e){
 					
@@ -60,7 +63,7 @@ public class Dictionary {
 				while((word = br.readLine()) != null){
 					
 					// Aggiungere parola alla struttura dati
-					dizionario.add(word);
+					dizionarioItaliano.add(word.toLowerCase());
 					
 					
 				}
@@ -98,11 +101,14 @@ public class Dictionary {
 		
 		for(String s: inputTextList){
 		
-			if(dizionario.contains(s))
-					r = new RichWord(s, true);
+			if(dizionarioItaliano.contains(s) || englishDictionary.contains(s)){
+					r = new RichWord(s);
+					r.setCorretta(true);
+			}
 			else{
 				
-				r = new RichWord(s, false);
+				r = new RichWord(s);
+				r.setCorretta(false);
 				paroleSbagliate.add(r);
 			}
 				
