@@ -64,7 +64,7 @@ public class RichWord {
 	 */
 	@Override
 	public String toString() {
-		return "RichWord word= " + word + ", corretta=" + corretta;
+		return "word= " + word + ", corretta= " + corretta;
 	}
 
 

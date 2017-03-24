@@ -6,15 +6,16 @@ import java.util.*;
 public class Dictionary {
 	
 	private List<RichWord> paroleSbagliate;
-	private List<String> dizionarioItaliano;
-	private List<String> englishDictionary;
+	private List<String> dizionario;
+	
+	final static boolean dicotomica = false;
+	
 	
 	
 	public Dictionary() {
 		
 		this.paroleSbagliate = new LinkedList<RichWord>();
-		this.dizionarioItaliano = new LinkedList<String>();
-		this.englishDictionary = new LinkedList<String>();
+		this.dizionario= new LinkedList<String>();
 		
 	}
 	
@@ -39,7 +40,7 @@ public class Dictionary {
 				String word;
 				while((word = br.readLine()) != null){
 					
-					englishDictionary.add(word.toLowerCase());
+					dizionario.add(word.toLowerCase());
 					
 					
 				}
@@ -63,7 +64,7 @@ public class Dictionary {
 				while((word = br.readLine()) != null){
 					
 					// Aggiungere parola alla struttura dati
-					dizionarioItaliano.add(word.toLowerCase());
+					dizionario.add(word.toLowerCase());
 					
 					
 				}
@@ -97,15 +98,33 @@ public class Dictionary {
 	
 	public List<RichWord> spellCheckText(List<String> inputTextList){
 		
+		
+		
 		RichWord r;
 		
 		for(String s: inputTextList){
-		
-			if(dizionarioItaliano.contains(s) || englishDictionary.contains(s)){
+			
+			
+			if (dicotomica) {
+				if (binarySearch(s.toLowerCase())){
+					
 					r = new RichWord(s);
 					r.setCorretta(true);
-			}
-			else{
+				}
+				else {
+					
+					r = new RichWord(s);
+					r.setCorretta(false);
+					paroleSbagliate.add(r);
+				}
+				
+				
+			} else{
+				
+				if(dizionario.contains(s)){
+					r = new RichWord(s);
+					r.setCorretta(true);
+			} else{
 				
 				r = new RichWord(s);
 				r.setCorretta(false);
@@ -113,11 +132,35 @@ public class Dictionary {
 			}
 				
 			
-			
+			}
 		}
+		dizionario.clear();
 		
 		return paroleSbagliate;
 		
+	}
+
+
+	private boolean binarySearch(String stemp) {
+		
+		
+
+		int inizio = 0;
+	     int fine = dizionario.size();
+
+	     while (inizio!=fine){
+	         int medio = inizio + (fine - inizio)/2;
+	         if (stemp.compareToIgnoreCase(dizionario.get(medio))==0){
+	             return true;
+	         } else if (stemp.compareToIgnoreCase(dizionario.get(medio))>0){
+	               inizio=medio +1;
+	           } else {
+	               fine=medio;
+	           }
+	     }
+		
+		return false;
+	
 	}
 	
 	

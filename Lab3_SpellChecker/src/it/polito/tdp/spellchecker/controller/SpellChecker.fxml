@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="it.polito.tdp.spellchecker.controller.SpellCheckerController">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.tdp.spellchecker.controller.SpellCheckerController">
    <top>
       <Label text="Lab3_SpellChecker" BorderPane.alignment="CENTER">
          <font>
@@ -38,7 +37,7 @@
                   <Label text="Wrong words" />
                </children>
             </HBox>
-            <TextArea fx:id="txtWrongWords" />
+            <TextArea fx:id="txtWrongWords" editable="false" />
             <HBox alignment="CENTER_RIGHT" spacing="10.0">
                <children>
                   <Label fx:id="lbNumErrori" text="The text contains 0 errors!" />

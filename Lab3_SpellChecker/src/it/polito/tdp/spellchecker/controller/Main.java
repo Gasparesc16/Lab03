@@ -15,6 +15,7 @@ public class Main extends Application {
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("SpellChecker.fxml"));
 			BorderPane root = (BorderPane)loader.load();
+			
 			SpellCheckerController controller = loader.getController();
 			Dictionary model = new Dictionary();
 			controller.setModel(model);

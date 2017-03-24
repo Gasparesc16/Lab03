@@ -22,7 +22,7 @@ public class SpellCheckerController {
 	
 	private Dictionary d;
 	
-	private List<String> testoDaCorreggere = new LinkedList<String>();
+	
 	
 	
 
@@ -58,47 +58,69 @@ public class SpellCheckerController {
     	
     	this.txtTesto.clear();
     	this.txtWrongWords.clear();
+    	
 
     }
 
     @FXML
     void doSpellCheck(ActionEvent event) {
     	
-    	// Gestisco la selezione della lingua
-    	d.loadDictionary(this.cmbLanguage.getValue());
+    	// Devo estrarre i dati che mi servono, in questo caso solo la lingua
+    	
+    	String language = this.cmbLanguage.getValue();
     	
     	
-    	// Prendo il testo da correggere
-    	String inputText = txtTesto.getText();
-    	if (inputText.isEmpty())
+    	// verifica le validità dei dati
+    	
+    	if(language == null){
+    		
+    		txtTesto.setText("Lingua non scelta!!!");
     		return;
+    		
+    	}
     	
-    	// Divido il testo usando gli spazi
+    	
+    	
+    	
+    	// chiedi al Model di effettuare l'operazione
+    	
+    	d.loadDictionary(language);
+    	
+    	
+    	// aggiorna la vista con il risultato dell'operazione 
+   
+    	
     	String array[] = this.txtTesto.getText().toLowerCase().split(" ");
+    	
+    	//.str.replaceAll("[ \\p{Punct}]", "")
+    	
+    	List<String> testoInput = new LinkedList<String>();
     	for(String s: array)
-    		testoDaCorreggere.add(s);
+    		testoInput.add(s);
     	
-    	// Chiamo la funzione per la correzione del testo e calcolo il tempo impiegato per la correzione
+    	
     	long to = System.nanoTime();
+   
+    	List<RichWord> paroleSbagliate = d.spellCheckText(testoInput) ;
     	
-    	List<RichWord> lista = d.spellCheckText(testoDaCorreggere);
+    	txtWrongWords.appendText("" + paroleSbagliate + "\n");
     	
     	
-    	// Stampo le parole sbagliate
-    	this.txtWrongWords.appendText(lista + "\n");
     	
     	// Calcolo il numero di errori
     	
-    	this.lbNumErrori.setText("The text contains " +  (lista.size() - 1) + " errors!");
-    	
-    	
-    	
+    	this.lbNumErrori.setText("The text contains " +  paroleSbagliate.size() + " errors!");
     	
     	double deT = (System.nanoTime() - to)/1e9 ;
     	
     	
     	//this.lbTempo.setText(String.format("Spell check completed in  %d seconds", deT));
     	this.lbTempo.setText(String.format("Spell check completed in " + deT + " seconds"));
+    	
+    	paroleSbagliate.clear();
+    	
+    	
+    	return;
     	
     	
 
@@ -115,7 +137,7 @@ public class SpellCheckerController {
         assert lbTempo != null : "fx:id=\"lbTempo\" was not injected: check your FXML file 'SpellChecker.fxml'.";
         
         
-        this.cmbLanguage.getItems().addAll("Ingelse", "Italiano");
+        this.cmbLanguage.getItems().addAll("English", "Italiano");
         //this.cmbLanguage.getItems().addAll(new String("Inglese"),new String("Italiano"));   SBAGLIATO !!!!!!!!!!! PERCHE'???????
 
     }
